@@ -2,20 +2,22 @@ FROM node:lts-buster-slim AS base
 RUN apt-get update && apt-get install libssl-dev ca-certificates git -y
 WORKDIR /app
 
+FROM bitnami/git:latest as git-fetch
+WORKDIR /app
 RUN git clone https://github.com/tovyblox/tovy /app
 
 FROM base as build
 RUN export NODE_ENV=production
 RUN yarn
 
-COPY . .
+COPY --from=git-fetch /app .
 RUN yarn run prisma:generate
 RUN yarn build
 
 FROM base as prod-build
 
 RUN yarn install --production
-COPY prisma prisma
+COPY --from=git-fetch /app/prisma prisma
 RUN yarn run prisma:generate
 RUN cp -R node_modules prod_node_modules
 
