@@ -5,7 +5,7 @@ RUN git clone https://github.com/tovyblox/tovy /app
 
 FROM base as build
 RUN export NODE_ENV=production
-RUN yarn
+RUN yarn install --production=false
 
 RUN yarn run prisma:generate
 RUN yarn build
