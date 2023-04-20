@@ -12,7 +12,7 @@ RUN yarn build
 
 FROM base as prod-build
 
-RUN yarn install --production
+RUN yarn install
 RUN yarn run prisma:generate
 RUN cp -R node_modules prod_node_modules
 
