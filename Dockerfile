@@ -10,7 +10,7 @@ FROM base as build
 RUN export NODE_ENV=production
 RUN yarn
 
-COPY --from=git-fetch /app .
+COPY --from=git-fetch /app/* .
 RUN yarn run prisma:generate
 RUN yarn build
 
