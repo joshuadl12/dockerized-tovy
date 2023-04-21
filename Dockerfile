@@ -17,7 +17,7 @@ RUN yarn add @tiptap/pm
 RUN yarn run prisma:generate
 RUN cp -R node_modules prod_node_modules
 
-FROM base as prod
+FROM node:alpine as prod
 
 COPY --from=prod-build /app/prod_node_modules /app/node_modules
 COPY --from=build  /app/.next /app/.next
