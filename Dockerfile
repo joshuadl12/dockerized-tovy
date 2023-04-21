@@ -5,14 +5,15 @@ RUN git clone https://github.com/tovyblox/tovy /app
 
 FROM base as build
 RUN export NODE_ENV=production
-RUN yarn install --production=false
-
+RUN yarn install --production=true
+RUN yarn add @tiptap/pm
 RUN yarn run prisma:generate
 RUN yarn build
 
 FROM base as prod-build
 
 RUN yarn install
+RUN yarn add @tiptap/pm
 RUN yarn run prisma:generate
 RUN cp -R node_modules prod_node_modules
 
